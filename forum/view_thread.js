@@ -20,7 +20,6 @@ const handler = (request, responce) => {
     html += read("html_templates/scripts.html");
     html += "</body>\n";
     html += "</html>";
-    console.log(html);
     responce.writeHead(200, {"content-type" : "text/html"});
     responce.write(html);
     responce.end()
