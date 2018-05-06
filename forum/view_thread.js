@@ -5,7 +5,7 @@ const fs = require('fs');
 const handler = (request, responce) => {
     let url = request.url.split("/");
     let topic_name = url[url.length-1];
-    let html = read("html_templates/head.html");
+    let html = read("html_templates/head.html").replace('{{TITLE}}', topic_name.replace("_", " "));
     let topic = JSON.parse(read("topics/" + topic_name + ".json"));
     html += "\n<body>";
     for (let i = 0; i < topic["comments"].length; i++) {
