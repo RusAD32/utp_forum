@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const crypto = require('crypto');
 
 const handler = (reqest, responce, data) => {
     let users = JSON.parse(fs.readFileSync("./data/users.json", "UTF-8"));
@@ -16,7 +17,8 @@ const handler = (reqest, responce, data) => {
         console.log("Auth err, " + data);
         return;
     }
-    if (users[username] === password) {
+    let hash = crypto.createHash("sha256", "kharnin").update(password).digest("hex");
+    if (users[username] === hash) {
         responce.writeHead(200, {"content-type": "text/plain"});
         responce.write("/forum");
         responce.end();
