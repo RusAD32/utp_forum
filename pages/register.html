@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<div>
+    <form>
+        <h2 >Please register</h2>
+        <input type="text" id="username" placeholder="Username" autofocus="" />
+        <br>
+        <input type="password" id="password" placeholder="Password"/>
+        <br>
+        <input type="password" id="password_confirm" placeholder="Confirm your password"/>
+        <br>
+        <button type="button" onclick="register()">Register</button>
+        <br>
+        <a href="/login">Or login instead</a>
+    </form>
+</div>
+</body>
+
+<script>
+    'use strict';
+    function register() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let password2 = document.getElementById("password_confirm").value;
+        if (username.length < 3) {
+            alert("Username too short");
+            return;
+        }
+        if (username.length > 64) {
+            alert("Username too long, 64 symbols maximum!");
+            return;
+        }
+        if (password.length < 6) {
+            alert("Password too short, 6 symbols minimum!");
+            return;
+        }
+        if (password.length > 64) {
+            alert("Password too long, 64 symbols maximum!");
+            return;
+        }
+        if (password !== password2) {
+            alert("Passwords don't match!");
+            return;
+        }
+        let regex = /[^a-zA-Zа-яА-Я0-9\-_.]+/;
+        if (username.match(regex) !== null) {
+            alert('Username should contain only letters, numbers and symbols . - or _');
+            return;
+        }
+        let regex2 = /\s/;
+        if (password.match(regex) !== null) {
+            alert('Password shouldn\'t contain whitespaces!');
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/reg', false);
+        xhr.send(username + " " + password);
+        if (xhr.status === 200) {
+            location = xhr.responseText;
+        } else {
+            alert(xhr.responseText);
+        }
+    }
+
+</script>
+</html>

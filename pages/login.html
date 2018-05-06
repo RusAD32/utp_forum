@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div>
+    <form>
+        <h2 >Please login</h2>
+        <input type="text" id="username" placeholder="Username" autofocus="" />
+        <br>
+        <input type="password" id="password" placeholder="Password"/>
+        <br>
+        <button type="button" onclick="login()">Login</button>
+        <br>
+        <a href="/register">Or register instead</a>
+    </form>
+</div>
+</body>
+
+<script>
+    'use strict';
+    function login() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        if (username === '' || password === '') {
+            alert("Fields should not be empty!")
+            return;
+        } 
+        if (username.length > 64) {
+            alert("Username too long, 64 symbols maximum!");
+            return;
+        }
+        if (password.length > 64) {
+            alert("Password too long, 64 symbols maximum!");
+            return;
+        }
+        if (password.match(/\s/) !== null) {
+            alert('Password shouldn\'t contain whitespaces!');
+            return;
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/auth', false);
+        xhr.send(username + " " + password);
+        if (xhr.status === 200) {
+            location = xhr.responseText;
+        } else {
+            alert(xhr.responseText);
+        }
+    }
+
+</script>
+</html>
