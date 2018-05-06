@@ -1,0 +1,37 @@
+
+<script>
+    'use strict';
+    function edit_comment(id) {
+        document.getElementById("comment_" + id).setAttribute('class', 'hidden');
+        document.getElementById("edit_btn_" + id).setAttribute('class', 'hidden');
+        document.getElementById("delete_btn_" + id).setAttribute('class', 'hidden');
+        document.getElementById("edit_" + id).removeAttribute('class');
+        document.getElementById("confirm_btn_" + id).removeAttribute('class');
+        document.getElementById("cancel_btn_" + id).removeAttribute('class');
+    }
+    function cancel_edit(id) {
+        document.getElementById("comment_" + id).removeAttribute('class');
+        document.getElementById("edit_btn_" + id).removeAttribute('class');
+        document.getElementById("delete_btn_" + id).removeAttribute('class');
+        document.getElementById("edit_" + id).setAttribute('class', 'hidden');
+        document.getElementById("confirm_btn_" + id).setAttribute('class', 'hidden');
+        document.getElementById("cancel_btn_" + id).setAttribute('class', 'hidden');
+    }
+    function confirm_edit(id) {
+        document.getElementById("comment_" + id).removeAttribute('class');
+        document.getElementById("edit_btn_" + id).removeAttribute('class');
+        document.getElementById("delete_btn_" + id).removeAttribute('class');
+        document.getElementById("edit_" + id).setAttribute('class', 'hidden');
+        document.getElementById("confirm_btn_" + id).setAttribute('class', 'hidden');
+        document.getElementById("cancel_btn_" + id).setAttribute('class', 'hidden');
+        let new_text = document.getElementById('edit_' + id).value;
+        document.getElementById('comment_' + id).textContent = new_text;
+    }
+    function delete_comment(id) {
+    }
+    function submit() {
+        let new_text = document.getElementById('new_comment').value;
+        return new_text;
+    }
+
+</script>

@@ -5,6 +5,7 @@ const fs = require('fs');
 const login_handler = require("./handlers/login").handler;
 const reg_handler = require("./handlers/register").handler;
 const forum_handler = require("./forum/list_topics").handler;
+const topic_handler = require("./forum/view_thread").handler;
 
 const handler = (request, responce) => {
     if (request.method === "POST") {
@@ -21,8 +22,10 @@ const handler = (request, responce) => {
         responce.writeHead(200, {"content-type": "text/html"});
         responce.write(fs.readFileSync("./pages/register.html", "UTF-8"));
         responce.end();
-    } else if(request.url.startsWith("/forum")) {
+    } else if (request.url === "/forum") {
         forum_handler(request, responce)
+    } else if(request.url.startsWith("/forum")) {
+        topic_handler(request, responce)
     } else {
         responce.writeHead(404, {"content-type" : "text/plain"});
         responce.write("Page you are requesting can not be found");
