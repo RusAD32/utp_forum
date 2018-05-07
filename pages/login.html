@@ -24,7 +24,7 @@
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
         if (username === '' || password === '') {
-            alert("Fields should not be empty!")
+            alert("Fields should not be empty!");
             return;
         } 
         if (username.length > 64) {
@@ -43,7 +43,8 @@
         xhr.open('POST', '/auth', false);
         xhr.send(username + " " + password);
         if (xhr.status === 200) {
-            location = xhr.responseText;
+            document.cookie = "forum_session=" + xhr.responseText;
+            location = "/?" + document.cookie;
         } else {
             alert(xhr.responseText);
         }

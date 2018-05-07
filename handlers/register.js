@@ -3,7 +3,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const handler = (reqest, responce, data) => {
+const handler = (reqest, responce, data, cookies) => {
     let users = JSON.parse(fs.readFileSync("./data/users.json", "UTF-8"));
     let username = "";
     let password = "";
@@ -31,8 +31,10 @@ const handler = (reqest, responce, data) => {
     } else {
         users[username] = crypto.createHash("sha256", "kharnin").update(password).digest("hex");
         fs.writeFileSync("./data/users.json", JSON.stringify(users), "UTF-8");
+        let cookie = username + cookies.size + new Date().getTime();
+        cookies.set(cookie, username);
         responce.writeHead(200, {"content-type": "text/plain"});
-        responce.write("/forum");
+        responce.write(cookie);
         responce.end();
     }
 };
