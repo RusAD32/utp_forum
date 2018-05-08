@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const get_cookie = require("../utils/cookie_manager").get_cookie;
+const time_formatter = require("../utils/date_formatter").time_formatter;
 
 const handler = (request, responce, state) => {
     let cookies = state.cookies;
@@ -33,7 +34,7 @@ function update_template(filename, comment) {
     return read(filename)
         .replace(/{{COMMENTID}}/g, comment["id"])
         .replace(/{{USERNAME}}/g, comment["author"])
-        .replace(/{{DATE}}/g, comment["date"])
+        .replace(/{{DATE}}/g, time_formatter(comment["date"]))
         .replace(/{{COMMENT_TEXT}}/g, comment["text"]);
 }
 

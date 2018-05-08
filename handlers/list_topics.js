@@ -1,6 +1,7 @@
 'use strict';
 const get_cookie = require("../utils/cookie_manager").get_cookie;
 const fs = require("fs");
+const time_formatter = require("../utils/date_formatter").time_formatter;
 
 const handler = (request, responce, state) => {
     let cookies = state.cookies;
@@ -17,7 +18,7 @@ const handler = (request, responce, state) => {
             .replace(/{{TOPIC_NAME}}/g, topic_name)
             .replace(/{{TOPIC NAME}}/g, topic_name.replace(/_/g, " "))
             .replace(/{{AUTHOR}}/g, topic["author"])
-            .replace(/{{DATE}}/g, topic["date"])
+            .replace(/{{DATE}}/g, time_formatter(topic["date"]));
     }
     html += "</table>\n</body>\n</html>";
     responce.writeHead(200, {"content-type" : "text/html"});
