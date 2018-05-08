@@ -21,7 +21,7 @@ const handler = (reqest, responce, data, state) => {
     }
     let hash = crypto.createHash("sha256", "kharnin").update(password).digest("hex");
     if (users[username] === hash) {
-        let cookie = username + new Date().getTime();
+        let cookie = encodeURIComponent(username + new Date().getTime());
         let expires = "";
         if (json_data["remember"]) {
             let d = new Date();
