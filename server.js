@@ -10,6 +10,8 @@ const check_cookie = require("./utils/cookie_manager").check_cookie;
 const new_comment_handler = require("./handlers/new_comment").handler;
 const delete_comment_handler = require("./handlers/delete_comment").handler;
 const edit_comment_handler = require("./handlers/edit_comment").handler;
+const rename_thread_handler = require("./handlers/rename_thread").handler;
+const delete_thread_handler = require("./handlers/delete_thread").handler;
 const url = require('url');
 
 let savedstate = JSON.parse(fs.readFileSync("./data/data.json"));
@@ -29,10 +31,14 @@ const handler = (request, responce) => {
             post_handler(request, responce, reg_handler);
         } else if (req_url === "/addcom") {
             post_handler(request, responce, new_comment_handler);
-        }else if (req_url === "/delcom") {
+        } else if (req_url === "/delcom") {
             post_handler(request, responce, delete_comment_handler);
-        }else if (req_url === "/editcom") {
+        } else if (req_url === "/editcom") {
             post_handler(request, responce, edit_comment_handler);
+        } else if (req_url === "/renamethr") {
+            post_handler(request, responce, rename_thread_handler);
+        } else if (req_url === "/delthr") {
+            post_handler(request, responce, delete_thread_handler);
         } else {
             responce.writeHead(404, {"content-type" : "text/plain"});
             responce.write("Page you are requesting can not be found");

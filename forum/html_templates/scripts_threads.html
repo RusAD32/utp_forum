@@ -1,0 +1,62 @@
+<script>
+    function delete_thread(name) {
+        if (confirm("Are you sure?")) {
+            xhr = new XMLHttpRequest();
+            xhr.open("POST", "/delthr", true);
+            xhr.send(JSON.stringify({
+                "name": name
+            }));
+            xhr.onreadystatechange = (e) => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        location.reload()
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            }
+        }
+    }
+    function rename_thread(name) {
+        document.getElementById("link_" + name).setAttribute('class', 'hidden');
+        document.getElementById("rename_btn_" + name).setAttribute('class', 'hidden');
+        document.getElementById("delete_btn_" + name).setAttribute('class', 'hidden');
+        document.getElementById("rename_" + name).removeAttribute('class');
+        document.getElementById("confirm_btn_" + name).removeAttribute('class');
+        document.getElementById("cancel_btn_" + name).removeAttribute('class');
+    }
+    function cancel_edit(name) {
+        document.getElementById("link_" + name).removeAttribute('class');
+        document.getElementById("rename_btn_" + name).removeAttribute('class');
+        document.getElementById("delete_btn_" + name).removeAttribute('class');
+        document.getElementById("rename_" + name).setAttribute('class', 'hidden');
+        document.getElementById("confirm_btn_" + name).setAttribute('class', 'hidden');
+        document.getElementById("cancel_btn_" + name).setAttribute('class', 'hidden');
+    }
+    function confirm_edit(name) {
+        document.getElementById("link_" + name).removeAttribute('class');
+        document.getElementById("rename_btn_" + name).removeAttribute('class');
+        document.getElementById("delete_btn_" + name).removeAttribute('class');
+        document.getElementById("rename_" + name).setAttribute('class', 'hidden');
+        document.getElementById("confirm_btn_" + name).setAttribute('class', 'hidden');
+        document.getElementById("cancel_btn_" + name).setAttribute('class', 'hidden');
+        let new_text = document.getElementById('rename_' + name).value;
+        if (confirm("Are you sure?")) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/renamethr", true);
+            xhr.send(JSON.stringify({
+                "name": name,
+                "new_name": new_text
+            }));
+            xhr.onreadystatechange = (e) => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        location.reload();
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            };
+        }
+    }
+</script>

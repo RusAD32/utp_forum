@@ -35,9 +35,7 @@
         }));
         xhr.onreadystatechange = (e) => {
             if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    location.reload()
-                } else {
+                if (xhr.status !== 200) {
                     alert(xhr.responseText)
                 }
             }

@@ -10,7 +10,7 @@ const handler = (request, responce, data, state) => {
         responce.writeHead(400, {"content-type": "text/plain"});
         responce.write("Deleting comment error. Your request was malformed");
         responce.end();
-        console.log("Comment add err, " + data);
+        console.log("Comment delete err, " + data);
         return;
     }
     let cookie = get_cookie(request.headers.cookie, "forum_session");
@@ -26,7 +26,6 @@ const handler = (request, responce, data, state) => {
                 responce.end();
                 return;
             } else {
-                console.log(topic["comments"][i]);
                 responce.writeHead(403, {"content-type":"text/plain"});
                 responce.write("You are trying to edit a comment that isn't yours");
                 responce.end();

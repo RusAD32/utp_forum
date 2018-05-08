@@ -22,7 +22,7 @@ const handler = (request, responce, state) => {
         }
     }
     html += read("html_templates/new_comment.html");
-    html += read("html_templates/scripts.html");
+    html += read("html_templates/scripts_comments.html");
     html += "</body>\n";
     html += "</html>";
     responce.writeHead(200, {"content-type" : "text/html"});

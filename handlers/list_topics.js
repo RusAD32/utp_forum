@@ -14,13 +14,15 @@ const handler = (request, responce, state) => {
     for (let i = 0; i < topics.length; i++) {
         let topic_name = topics[i].substring(0, topics[i].length-5);
         let topic = JSON.parse(read("topics/" + topics[i]));
-        html += read("html_templates/topiclist_item.html")
-            .replace(/{{TOPIC_NAME}}/g, topic_name)
-            .replace(/{{TOPIC NAME}}/g, topic_name.replace(/_/g, " "))
-            .replace(/{{AUTHOR}}/g, topic["author"])
-            .replace(/{{DATE}}/g, time_formatter(topic["date"]));
+        if (topic["author"] === user) {
+            html += update_template("html_templates/topiclist_item_owner.html", topic_name, topic)
+        } else {
+            html += update_template("html_templates/topiclist_item.html", topic_name, topic)
+        }
     }
-    html += "</table>\n</body>\n</html>";
+    html += "</table>\n";
+    html += read("html_templates/scripts_threads.html");
+    html += "</body>\n</html>";
     responce.writeHead(200, {"content-type" : "text/html"});
     responce.write(html);
     responce.end()
@@ -28,6 +30,14 @@ const handler = (request, responce, state) => {
 
 function read(path) {
     return fs.readFileSync('./forum/' + path, "UTF-8");
+}
+
+function update_template(filename, topic_name, topic) {
+    return read(filename)
+        .replace(/{{TOPIC_NAME}}/g, topic_name)
+        .replace(/{{TOPIC NAME}}/g, topic_name.replace(/_/g, " "))
+        .replace(/{{AUTHOR}}/g, topic["author"])
+        .replace(/{{DATE}}/g, time_formatter(topic["date"]));
 }
 
 module.exports.handler = handler;
