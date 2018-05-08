@@ -12,6 +12,10 @@
         <br>
         <input type="password" id="password" placeholder="Password"  onkeypress="if (event.keyCode === 13) { login()}"/>
         <br>
+        <label class="checkbox">
+        <input type="checkbox" id="rememberMe" name="rememberMe"> Remember me
+        </label>
+        <br>
         <button type="button" onclick="login()">Login</button>
         <br>
         <a href="/register">Or register instead</a>
@@ -39,9 +43,10 @@
             alert('Password shouldn\'t contain whitespaces!');
             return;
         }
+        let rm = document.getElementById("rememberMe").checked;
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '/auth', true);
-        xhr.send(JSON.stringify({"username":username,"password":password}));
+        xhr.send(JSON.stringify({"username":username,"password":password,"remember":rm}));
         xhr.onreadystatechange = (e) => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
@@ -55,7 +60,6 @@
                 }
             }
         };
-
     }
 
 </script>
