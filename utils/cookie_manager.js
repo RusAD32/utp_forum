@@ -10,7 +10,6 @@ const get_cookie = (cookie_str, cookie_name) => {
 
 const check_cookie = (cookie_str, cookies) => {
     let found_cookie = get_cookie(cookie_str, "forum_session");
-    console.log(found_cookie + "  ");
     return cookies[found_cookie] !== undefined;
 };
 

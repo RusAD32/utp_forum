@@ -38,7 +38,7 @@ const handler = (request, responce) => {
         responce.write(fs.readFileSync("./pages/register.html", "UTF-8"));
         responce.end();
     } else if (req_url === "/forum") {
-        forum_handler(request, responce)
+        forum_handler(request, responce, cookies)
     } else if(req_url.startsWith("/forum")) {
         topic_handler(request, responce, cookies)
     } else {
