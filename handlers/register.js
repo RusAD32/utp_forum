@@ -32,7 +32,7 @@ const handler = (reqest, responce, data, state) => {
     } else {
         users[username] = crypto.createHash("sha256", "kharnin").update(password).digest("hex");
         fs.writeFileSync("./data/users.json", JSON.stringify(users), "UTF-8");
-        let cookie = username + new Date().getTime();
+        let cookie = encodeURIComponent(username + new Date().getTime());
         state.cookies[cookie] = username;
         responce.writeHead(200, {"content-type": "text/plain", "Set-cookie": "forum_session=" + cookie});
         responce.write("/forum");
