@@ -15,7 +15,14 @@ const delete_thread_handler = require("./handlers/delete_thread").handler;
 const add_thread_handler = require("./handlers/new_thread").handler;
 const url = require('url');
 
-let savedstate = JSON.parse(fs.readFileSync("./data/data.json"));
+if (!fs.existsSync("./data/data.json")) {
+    let savedstate = { 
+        "total_comments": 0,
+        "cookies": {}
+    }
+} else {
+    let savedstate = JSON.parse(fs.readFileSync("./data/data.json"));
+}
 if (savedstate.cookies.length > 10000) {
     savedstate.cookies = savedstate.cookies.slice(5000);
     fs.writeFileSync("./data/data.json", JSON.stringify(savedstate));
