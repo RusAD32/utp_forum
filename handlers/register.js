@@ -8,8 +8,9 @@ const handler = (reqest, responce, data, cookies) => {
     let username = "";
     let password = "";
     try {
-        username = data.split(" ")[0];
-        password = data.split(" ")[1];
+        let json_data = JSON.parse(data);
+        username = json_data["username"];
+        password = json_data["password"];
     } catch (e) {
         responce.writeHead(401, {"content-type": "text/plain"});
         responce.write("Registration error. Your request was malformed");

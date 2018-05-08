@@ -41,7 +41,7 @@
         }
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '/auth', false);
-        xhr.send(username + " " + password);
+        xhr.send(JSON.stringify({"username":username,"password":password}));
         if (xhr.status === 200) {
             location = xhr.responseText;
         } else {
