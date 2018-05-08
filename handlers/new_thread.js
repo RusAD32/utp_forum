@@ -15,18 +15,30 @@ const handler = (request, responce, data, state) => {
     }
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
-    let filename = "./forum/topics/" + data_struct["topic_name"].replace(/\s/g, "_") + ".json";
-    let topic = JSON.parse(fs.readFileSync(filename));
-    topic["comments"].push({
-        author: user,
-        date: new Date().getTime(),
-        id: ++state["total_comments"],
-        text: data_struct["comment_text"]
-    });
+    let filename = "./forum/topics/" + data_struct["name"].replace(/\s/g, "_") + ".json";
+    if (fs.existsSync(filename)) {
+        responce.writeHead(400, {"content-type": "text/plain"});
+        responce.write("Topic with the same name already exists, please choose another one");
+        responce.end();
+        return;
+    }
+    let time = new Date().getTime();
+    let comment = {
+        "author": user,
+        "date": time,
+        "id": ++state["total_comments"],
+        "text": data_struct["text"]
+    };
+    let topic = {
+        "author": user,
+        "date": time,
+        "comments": [
+            comment
+        ]
+    };
     fs.writeFileSync(filename, JSON.stringify(topic));
     responce.writeHead(200);
     responce.end();
-    state["total_comments"]++;
 };
 
 module.exports.handler = handler;

@@ -12,6 +12,7 @@ const delete_comment_handler = require("./handlers/delete_comment").handler;
 const edit_comment_handler = require("./handlers/edit_comment").handler;
 const rename_thread_handler = require("./handlers/rename_thread").handler;
 const delete_thread_handler = require("./handlers/delete_thread").handler;
+const add_thread_handler = require("./handlers/new_thread").handler;
 const url = require('url');
 
 let savedstate = JSON.parse(fs.readFileSync("./data/data.json"));
@@ -39,6 +40,8 @@ const handler = (request, responce) => {
             post_handler(request, responce, rename_thread_handler);
         } else if (req_url === "/delthr") {
             post_handler(request, responce, delete_thread_handler);
+        }else if (req_url === "/addthr") {
+            post_handler(request, responce, add_thread_handler);
         } else {
             responce.writeHead(404, {"content-type" : "text/plain"});
             responce.write("Page you are requesting can not be found");

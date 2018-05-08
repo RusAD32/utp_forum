@@ -6,7 +6,7 @@
             xhr.send(JSON.stringify({
                 "name": name
             }));
-            xhr.onreadystatechange = (e) => {
+            xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         location.reload()
@@ -48,7 +48,7 @@
                 "name": name,
                 "new_name": new_text
             }));
-            xhr.onreadystatechange = (e) => {
+            xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         location.reload();
@@ -57,6 +57,38 @@
                     }
                 }
             };
+        }
+    }
+
+    function submit() {
+        let new_name = document.getElementById('new_name').value;
+        let new_text = document.getElementById('new_first_comm').value;
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/addthr", true);
+        xhr.send(JSON.stringify({
+            "name": new_name,
+            "text": new_text
+        }));
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location.reload()
+                } else {
+                    alert(xhr.responseText)
+                }
+            }
+        }
+    }
+
+    function expand() {
+        if (document.getElementById("new_topic_tr1").getAttribute("class") === "hidden") {
+            document.getElementById("new_topic_tr1").removeAttribute("class");
+            document.getElementById("new_topic_tr2").removeAttribute("class");
+            document.getElementById("new_topic_tr3").removeAttribute("class")
+        } else {
+            document.getElementById("new_topic_tr1").setAttribute("class", "hidden");
+            document.getElementById("new_topic_tr2").setAttribute("class", "hidden");
+            document.getElementById("new_topic_tr3").setAttribute("class", "hidden")
         }
     }
 </script>

@@ -10,6 +10,7 @@ const handler = (request, responce, state) => {
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
     html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>";
+    html += read("html_templates/topiclist_new.html");
     html += "<table align='center' border='2px'>";
     for (let i = 0; i < topics.length; i++) {
         let topic_name = topics[i].substring(0, topics[i].length-5);
