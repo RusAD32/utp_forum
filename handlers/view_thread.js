@@ -3,7 +3,8 @@
 const fs = require('fs');
 const get_cookie = require("../utils/cookie_manager").get_cookie;
 
-const handler = (request, responce, cookies) => {
+const handler = (request, responce, state) => {
+    let cookies = state.cookies;
     let url = request.url.split("/");
     let topic_name = url[url.length-1];
     let html = read("html_templates/head.html").replace('{{TITLE}}', topic_name.replace(/_/g, " "));
@@ -14,9 +15,9 @@ const handler = (request, responce, cookies) => {
     for (let i = 0; i < topic["comments"].length; i++) {
         let comment = topic["comments"][i];
         if (comment["author"] === user || topic["author"] === user) {
-            html += update_template('html_templates/comment_box_owner.html', comment, i);
+            html += update_template('html_templates/comment_box_owner.html', comment);
         } else {
-            html += update_template('html_templates/comment_box.html', comment, i);
+            html += update_template('html_templates/comment_box.html', comment);
         }
     }
     html += read("html_templates/new_comment.html");
@@ -28,9 +29,9 @@ const handler = (request, responce, cookies) => {
     responce.end()
 };
 
-function update_template(filename, comment, i) {
+function update_template(filename, comment) {
     return read(filename)
-        .replace(/{{COMMENTID}}/g, i)
+        .replace(/{{COMMENTID}}/g, comment["id"])
         .replace(/{{USERNAME}}/g, comment["author"])
         .replace(/{{DATE}}/g, comment["date"])
         .replace(/{{COMMENT_TEXT}}/g, comment["text"]);

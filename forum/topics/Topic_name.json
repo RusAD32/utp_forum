@@ -1,16 +1,1 @@
-{
-  "author": "admin",
-  "date": "test_today 18:00",
-  "comments": [
-    {
-      "author": "admin",
-      "date": "test_today 18:00",
-      "text": "I wanna be the very best"
-    },
-    {
-      "author": "user",
-      "date": "test_today 19:00",
-      "text": "like no one ever was!"
-    }
-  ]
-}
+{"author":"admin","date":"1525790826367","comments":[{"author":"admin","id":1,"date":1525790826367,"text":"I wanna be the very best"},{"author":"user","id":2,"date":1525790826368,"text":"like no one ever was!"}]}

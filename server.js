@@ -7,10 +7,16 @@ const reg_handler = require("./handlers/register").handler;
 const forum_handler = require("./handlers/list_topics").handler;
 const topic_handler = require("./handlers/view_thread").handler;
 const check_cookie = require("./utils/cookie_manager").check_cookie;
+const new_comment_handler = require("./handlers/new_comment").handler;
+const delete_comment_handler = require("./handlers/delete_comment").handler;
+const edit_comment_handler = require("./handlers/edit_comment").handler;
 const url = require('url');
 
-
-let cookies = {};
+let savedstate = JSON.parse(fs.readFileSync("./data/data.json"));
+if (savedstate.cookies.length > 10000) {
+    savedstate.cookies = savedstate.cookies.slice(5000);
+    fs.writeFileSync("./data/data.json", JSON.stringify(savedstate));
+}
 
 const handler = (request, responce) => {
     let total_url = url.parse(request.url);
@@ -21,9 +27,20 @@ const handler = (request, responce) => {
             post_handler(request, responce, login_handler)
         } else if (req_url === "/reg") {
             post_handler(request, responce, reg_handler);
+        } else if (req_url === "/addcom") {
+            post_handler(request, responce, new_comment_handler);
+        }else if (req_url === "/delcom") {
+            post_handler(request, responce, delete_comment_handler);
+        }else if (req_url === "/editcom") {
+            post_handler(request, responce, edit_comment_handler);
+        } else {
+            responce.writeHead(404, {"content-type" : "text/plain"});
+            responce.write("Page you are requesting can not be found");
+            responce.end();
         }
-    } else if (!(check_cookie(cookie, cookies) || req_url === "/login" || req_url === "/register")) {
-        responce.writeHead(301, {"location": "/login"});
+    } else if (!(check_cookie(cookie, savedstate["cookies"]) || req_url === "/login" || req_url === "/register")) {
+        responce.writeHead(200, {"content-type": "text/html"});
+        responce.write(fs.readFileSync("./pages/login.html", "UTF-8"));
         responce.end();
     } else if (req_url === "/") {
         responce.writeHead(301, {"location": "/forum"});
@@ -38,14 +55,15 @@ const handler = (request, responce) => {
         responce.write(fs.readFileSync("./pages/register.html", "UTF-8"));
         responce.end();
     } else if (req_url === "/forum") {
-        forum_handler(request, responce, cookies)
+        forum_handler(request, responce, savedstate)
     } else if(req_url.startsWith("/forum")) {
-        topic_handler(request, responce, cookies)
+        topic_handler(request, responce, savedstate)
     } else {
         responce.writeHead(404, {"content-type" : "text/plain"});
         responce.write("Page you are requesting can not be found");
         responce.end();
     }
+    fs.writeFileSync("./data/data.json", JSON.stringify(savedstate));
 };
 
 function post_handler(request, responce, handler) {
@@ -60,7 +78,7 @@ function post_handler(request, responce, handler) {
         }
     });
     request.on("end", () => {
-        handler(request, responce, req_data, cookies)
+        handler(request, responce, req_data, savedstate)
     });
 }
 

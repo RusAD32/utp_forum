@@ -5,14 +5,14 @@
     <title>Register</title>
 </head>
 <body>
-<div>
+<div align="center">
     <form>
         <h2 >Please register</h2>
-        <input type="text" id="username" placeholder="Username" autofocus="" />
+        <input type="text" id="username" placeholder="Username" autofocus="" onkeypress="if (event.keyCode === 13) { document.getElementById('password').focus()}"/>
         <br>
-        <input type="password" id="password" placeholder="Password"/>
+        <input type="password" id="password" placeholder="Password" onkeypress="if (event.keyCode === 13) { document.getElementById('password_confirm').focus()}"/>
         <br>
-        <input type="password" id="password_confirm" placeholder="Confirm your password"/>
+        <input type="password" id="password_confirm" placeholder="Confirm your password" onkeypress="if (event.keyCode === 13) { register() }"/>
         <br>
         <button type="button" onclick="register()">Register</button>
         <br>
@@ -52,18 +52,22 @@
             return;
         }
         let regex2 = /\s/;
-        if (password.match(regex) !== null) {
+        if (password.match(regex2) !== null) {
             alert('Password shouldn\'t contain whitespaces!');
             return;
         }
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/reg', false);
+        xhr.open('POST', '/reg', true);
         xhr.send(JSON.stringify({"username":username,"password":password}));
-        if (xhr.status === 200) {
-            location = xhr.responseText;
-        } else {
-            alert(xhr.responseText);
-        }
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location = xhr.responseText;
+                } else {
+                    alert(xhr.responseText);
+                }
+            }
+        };
     }
 
 </script>

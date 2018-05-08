@@ -26,12 +26,57 @@
         document.getElementById("cancel_btn_" + id).setAttribute('class', 'hidden');
         let new_text = document.getElementById('edit_' + id).value;
         document.getElementById('comment_' + id).textContent = new_text;
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/editcom", true);
+        xhr.send(JSON.stringify({
+            "topic_name": document.title,
+            "id": +id,
+            "comment_text": new_text
+        }));
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location.reload()
+                } else {
+                    alert(xhr.responseText)
+                }
+            }
+        };
     }
     function delete_comment(id) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/delcom", true);
+        xhr.send(JSON.stringify({
+            "topic_name": document.title,
+            "id": +id
+        }));
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location.reload()
+                } else {
+                    alert(xhr.responseText)
+                }
+            }
+        }
     }
     function submit() {
         let new_text = document.getElementById('new_comment').value;
-        return new_text;
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/addcom", true);
+        xhr.send(JSON.stringify({
+            "topic_name": document.title,
+            "comment_text": new_text
+        }));
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location.reload()
+                } else {
+                    alert(xhr.responseText)
+                }
+            }
+        }
     }
 
 </script>

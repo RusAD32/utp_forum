@@ -3,7 +3,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const handler = (reqest, responce, data, cookies) => {
+const handler = (reqest, responce, data, state) => {
     let users = JSON.parse(fs.readFileSync("./data/users.json", "UTF-8"));
     let username = "";
     let password = "";
@@ -12,7 +12,7 @@ const handler = (reqest, responce, data, cookies) => {
         username = json_data["username"];
         password = json_data["password"];
     } catch (e) {
-        responce.writeHead(401, {"content-type": "text/plain"});
+        responce.writeHead(400, {"content-type": "text/plain"});
         responce.write("Registration error. Your request was malformed");
         responce.end();
         console.log("Registration err, " + data);
@@ -20,25 +20,24 @@ const handler = (reqest, responce, data, cookies) => {
     }
     let verification = verify(username, password);
     if (verification) {
-        responce.writeHead(401, {"content-type": "text/plain"});
+        responce.writeHead(400, {"content-type": "text/plain"});
         responce.write(verification);
         responce.end();
         return
     }
     if (users[username] !== undefined) {
-        responce.writeHead(401, {"content-type": "text/plain"});
+        responce.writeHead(400, {"content-type": "text/plain"});
         responce.write("User already exists!");
         responce.end();
     } else {
         users[username] = crypto.createHash("sha256", "kharnin").update(password).digest("hex");
         fs.writeFileSync("./data/users.json", JSON.stringify(users), "UTF-8");
         let cookie = username + new Date().getTime();
-        cookies[cookie] = username;
+        state.cookies[cookie] = username;
         responce.writeHead(200, {"content-type": "text/plain", "Set-cookie": "forum_session=" + cookie});
         responce.write("/forum");
         responce.end();
     }
-    return cookies;
 };
 
 function verify(username, password) {

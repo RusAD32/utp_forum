@@ -5,12 +5,12 @@
     <title>Login</title>
 </head>
 <body>
-<div>
+<div align="center">
     <form>
         <h2 >Please login</h2>
-        <input type="text" id="username" placeholder="Username" autofocus="" />
+        <input type="text" id="username" placeholder="Username" autofocus=""  onkeypress="if (event.keyCode === 13) { document.getElementById('password').focus()}"/>
         <br>
-        <input type="password" id="password" placeholder="Password"/>
+        <input type="password" id="password" placeholder="Password"  onkeypress="if (event.keyCode === 13) { login()}"/>
         <br>
         <button type="button" onclick="login()">Login</button>
         <br>
@@ -40,13 +40,22 @@
             return;
         }
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/auth', false);
+        xhr.open('POST', '/auth', true);
         xhr.send(JSON.stringify({"username":username,"password":password}));
-        if (xhr.status === 200) {
-            location = xhr.responseText;
-        } else {
-            alert(xhr.responseText);
-        }
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    if (document.location.pathname === "/login") {
+                        location = xhr.responseText;
+                    } else {
+                        location.reload();
+                    }
+                } else {
+                    alert(xhr.responseText);
+                }
+            }
+        };
+
     }
 
 </script>
