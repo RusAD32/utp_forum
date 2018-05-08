@@ -11,7 +11,7 @@
             <div id="comment_{{COMMENTID}}" aria-hidden="false">
                 {{COMMENT_TEXT}}
             </div>
-            <input class="hidden" placeholder="Comment text" type="text" id="edit_{{COMMENTID}}" value="{{COMMENT_TEXT}}">
+            <input class="hidden" placeholder="Comment text" type="text" id="edit_{{COMMENTID}}" value="{{COMMENT_TEXT}}"  onkeypress="if (event.keyCode === 13) { confirm_edit({{COMMENTID}})}"/>
         </td>
     </tr>
     <tr>
