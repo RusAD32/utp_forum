@@ -4,43 +4,43 @@ const http = require('http');
 const fs = require('fs');
 const login_handler = require("./handlers/login").handler;
 const reg_handler = require("./handlers/register").handler;
-const forum_handler = require("./forum/list_topics").handler;
-const topic_handler = require("./forum/view_thread").handler;
+const forum_handler = require("./handlers/list_topics").handler;
+const topic_handler = require("./handlers/view_thread").handler;
+const check_cookie = require("./utils/cookie_manager").check_cookie;
 const url = require('url');
 
-let cookies = new Map();
+
+let cookies = {};
 
 const handler = (request, responce) => {
     let total_url = url.parse(request.url);
-    let url_path = total_url.pathname;
+    let req_url = total_url.pathname;
+    let cookie = request.headers.cookie ? request.headers.cookie : "";
     if (request.method === "POST") {
-        if (url_path === "/auth") {
+        if (req_url === "/auth") {
             post_handler(request, responce, login_handler)
-        } else if (url_path === "/reg") {
+        } else if (req_url === "/reg") {
             post_handler(request, responce, reg_handler);
         }
-    } else if (url_path === '/' || url_path === '') {
-        let cookie = total_url.search.substr(1).split("=");
-        if (cookie.length === 2 && cookie[0] === "forum_session" && cookies.has(cookie[1])) {
-            responce.writeHead(301, {"location": "/forum"});
-            responce.cookie=cookie[0] + "=" + cookie[1];
-            responce.end();
-        } else {
-            responce.writeHead(301, {"location": "/login"});
-            responce.end();
-        }
-    } else if (url_path === '/login') {
+    } else if (!(check_cookie(cookie, cookies) || req_url === "/login" || req_url === "/register")) {
+        responce.writeHead(301, {"location": "/login"});
+        responce.end();
+    } else if (req_url === "/") {
+        responce.writeHead(301, {"location": "/forum"});
+        responce.end()
+    }
+    else if (req_url === '/login') {
         responce.writeHead(200, {"content-type": "text/html"});
         responce.write(fs.readFileSync("./pages/login.html", "UTF-8"));
         responce.end();
-    } else if (url_path === '/register') {
+    } else if (req_url === '/register') {
         responce.writeHead(200, {"content-type": "text/html"});
         responce.write(fs.readFileSync("./pages/register.html", "UTF-8"));
         responce.end();
-    } else if (url_path === "/forum") {
+    } else if (req_url === "/forum") {
         forum_handler(request, responce)
-    } else if(url_path.startsWith("/forum")) {
-        topic_handler(request, responce)
+    } else if(req_url.startsWith("/forum")) {
+        topic_handler(request, responce, cookies)
     } else {
         responce.writeHead(404, {"content-type" : "text/plain"});
         responce.write("Page you are requesting can not be found");

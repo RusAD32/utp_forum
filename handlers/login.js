@@ -19,16 +19,18 @@ const handler = (reqest, responce, data, cookies) => {
     }
     let hash = crypto.createHash("sha256", "kharnin").update(password).digest("hex");
     if (users[username] === hash) {
-        let cookie = username + cookies.size + new Date().getTime();
-        cookies.set(cookie, username);
-        responce.writeHead(200, {"content-type": "text/plain"});
-        responce.write(cookie);
+        let cookie = username + new Date().getTime();
+        cookies[cookie] = username;
+        responce.writeHead(200, {"content-type": "text/plain", "Set-cookie": "forum_session=" + cookie});
+        responce.write("/forum");
         responce.end();
     } else {
         responce.writeHead(401, {"content-type": "text/plain"});
         responce.write("Authorization error. Invalid username or password. ");
         responce.end();
     }
+    console.log(cookies);
+    return cookies;
 };
 
 module.exports.handler = handler;

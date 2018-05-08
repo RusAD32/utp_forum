@@ -11,15 +11,6 @@
             <div id="comment_{{COMMENTID}}" aria-hidden="false">
                 {{COMMENT_TEXT}}
             </div>
-            <input class="hidden" placeholder="Comment text" type="text" id="edit_{{COMMENTID}}" value="{{COMMENT_TEXT}}">
-        </td>
-    </tr>
-    <tr>
-        <td align="right" colspan="2">
-            <button type="button" id="edit_btn_{{COMMENTID}}" onclick="edit_comment('{{COMMENTID}}')">Edit</button>
-            <button type="button" id="delete_btn_{{COMMENTID}}" onclick="delete_comment('{{COMMENTID}}')">Delete</button>
-            <button class=hidden id="confirm_btn_{{COMMENTID}}" type="button" onclick="confirm_edit('{{COMMENTID}}')">Confirm</button>
-            <button class="hidden" id="cancel_btn_{{COMMENTID}}" type="button" onclick="cancel_edit('{{COMMENTID}}')">Cancel</button>
         </td>
     </tr>
 </table>

@@ -1,20 +1,23 @@
 'use strict';
 
 const fs = require('fs');
+const get_cookie = require("../utils/cookie_manager").get_cookie;
 
-const handler = (request, responce) => {
+const handler = (request, responce, cookies) => {
     let url = request.url.split("/");
     let topic_name = url[url.length-1];
     let html = read("html_templates/head.html").replace('{{TITLE}}', topic_name.replace("_", " "));
     let topic = JSON.parse(read("topics/" + topic_name + ".json"));
+    let cookie = get_cookie(request.headers.cookie, "forum_session");
+    let user = cookies[cookie];
     html += "\n<body>";
     for (let i = 0; i < topic["comments"].length; i++) {
         let comment = topic["comments"][i];
-        html += read('html_templates/comment_box.html')
-            .replace(/{{COMMENTID}}/g, i)
-            .replace(/{{USERNAME}}/g, comment["author"])
-            .replace(/{{DATE}}/g, comment["date"])
-            .replace(/{{COMMENT_TEXT}}/g, comment["text"]);
+        if (comment["author"] === user || topic["author"] === user) {
+            html += update_template('html_templates/comment_box_owner.html');
+        } else {
+            html += update_template('html_templates/comment_box.html');
+        }
     }
     html += read("html_templates/new_comment.html");
     html += read("html_templates/scripts.html");
@@ -24,6 +27,14 @@ const handler = (request, responce) => {
     responce.write(html);
     responce.end()
 };
+
+function update_template(filename, comment) {
+    return read(filename)
+        .replace(/{{COMMENTID}}/g, i)
+        .replace(/{{USERNAME}}/g, comment["author"])
+        .replace(/{{DATE}}/g, comment["date"])
+        .replace(/{{COMMENT_TEXT}}/g, comment["text"]);
+}
 
 function read(path) {
     return fs.readFileSync('./forum/' + path, "UTF-8");

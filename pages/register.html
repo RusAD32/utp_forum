@@ -60,8 +60,7 @@
         xhr.open('POST', '/reg', false);
         xhr.send(username + " " + password);
         if (xhr.status === 200) {
-            document.cookie = "forum_session=" + xhr.responseText;
-            location = "/?" + document.cookie;
+            location = xhr.responseText;
         } else {
             alert(xhr.responseText);
         }
