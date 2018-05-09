@@ -24,22 +24,7 @@
     </style>
 </head>
 <body>
-<div align="center">
-    <form>
-        <div><b>Please register</b></div>
-        <br>
-        <input type="text" id="username" placeholder="Username" autofocus="" onkeypress="if (event.keyCode === 13) { document.getElementById('password').focus()}"/>
-        <br>
-        <input type="password" id="password" placeholder="Password" onkeypress="if (event.keyCode === 13) { document.getElementById('password_confirm').focus()}"/>
-        <br>
-        <input type="password" id="password_confirm" placeholder="Confirm your password" onkeypress="if (event.keyCode === 13) { register() }"/>
-        <br>
-        <span id="warnings"></span>
-        <button type="button" onclick="register()">Register</button>
-        <br>
-        <a href="/login">Or login instead</a>
-    </form>
-</div>
+
 
 <script>
     'use strict';
@@ -48,7 +33,7 @@
         let password = document.getElementById("password").value;
         let password2 = document.getElementById("password_confirm").value;
         if (username.length < 3) {
-            document.getElementById("warnings").textContent = "Username too short, 3 smbols minimum!\r\n";
+            document.getElementById("warnings").textContent = "Username too short, 3 symbols minimum!\r\n";
             return;
         }
         if (username.length > 64) {
@@ -69,12 +54,12 @@
         }
         let regex = /[^a-zA-Zа-яА-Я0-9\-_.]+/;
         if (username.match(regex) !== null) {
-            document.getElementById("warnings").textContent = 'Username should contain only letters, numbers and symbols . - or _\r\n";
+            document.getElementById("warnings").textContent = 'Username should contain only letters, numbers and symbols . - or _\r\n';
             return;
         }
         let regex2 = /\s/;
         if (password.match(regex2) !== null) {
-            document.getElementById("warnings").textContent = 'Password shouldn\'t contain whitespaces!\r\n";
+            document.getElementById("warnings").textContent = 'Password shouldn\'t contain whitespaces!\r\n';
             return;
         }
         let xhr = new XMLHttpRequest();
@@ -92,5 +77,23 @@
     }
 
 </script>
+
+<div align="center">
+    <form>
+        <div><b>Please register</b></div>
+        <br>
+        <input type="text" id="username" placeholder="Username" autofocus="" onkeypress="if (event.keyCode === 13) { document.getElementById('password').focus()}"/>
+        <br>
+        <input type="password" id="password" placeholder="Password" onkeypress="if (event.keyCode === 13) { document.getElementById('password_confirm').focus()}"/>
+        <br>
+        <input type="password" id="password_confirm" placeholder="Confirm your password" onkeypress="if (event.keyCode === 13) { register() }"/>
+        <br>
+        <span id="warnings"></span>
+        <button type="button" onclick="register()">Register</button>
+        <br>
+        <a href="/login">Or login instead</a>
+    </form>
+</div>
+
 </body>
 </html>
