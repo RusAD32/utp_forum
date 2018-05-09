@@ -98,7 +98,7 @@
         let dt = new Date(+time);
         return (dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()) +
             "." + (dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : (dt.getMonth() + 1)) +
-            "." + dt.getFullYear() + " " + dt.getHours() + ":" +
+            "." + dt.getFullYear() + "&nbsp;" + dt.getHours() + ":" +
             (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes()) + ":" +
             (dt.getSeconds() < 10 ? '0' + dt.getSeconds() : dt.getSeconds());
     }
