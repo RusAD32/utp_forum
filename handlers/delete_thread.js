@@ -15,7 +15,7 @@ const handler = (request, responce, data, state) => {
     }
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
-    let filename = "./forum/topics/" + data_struct["name"] + ".json";
+    let filename = "./forum/topics/" + data_struct["name"].replace(/\//g, "\\") + ".json";
     if (!fs.existsSync(filename)) {
         responce.writeHead(404);
         responce.write("Comment not found");

@@ -15,7 +15,7 @@ const handler = (request, responce, data, state) => {
     }
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
-    let filename = "./forum/topics/" + data_struct["name"].replace(/\s/g, "_").replace(/\//g, "\\/") + ".json";
+    let filename = "./forum/topics/" + data_struct["name"].replace(/\s/g, "_").replace(/\//g, "\\") + ".json";
     if (fs.existsSync(filename)) {
         responce.writeHead(400, {"content-type": "text/plain"});
         responce.write("Topic with the same name already exists, please choose another one");

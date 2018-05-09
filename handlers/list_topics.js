@@ -13,7 +13,7 @@ const handler = (request, responce, state) => {
     html += read("html_templates/topiclist_new.html");
     html += "<table align='center' border='2px'>";
     for (let i = 0; i < topics.length; i++) {
-        let topic_name = topics[i].substring(0, topics[i].length-5);
+        let topic_name = topics[i].substring(0, topics[i].length-5).replace(/\\/g, "/");
         let topic = JSON.parse(read("topics/" + topics[i]));
         if (topic["author"] === user) {
             html += update_template("html_templates/topiclist_item_owner.html", topic_name, topic)

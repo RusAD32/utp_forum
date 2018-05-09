@@ -41,23 +41,21 @@
         document.getElementById("confirm_btn_" + name).setAttribute('class', 'hidden');
         document.getElementById("cancel_btn_" + name).setAttribute('class', 'hidden');
         let new_text = document.getElementById('rename_' + name).value;
-        if (confirm("Are you sure?")) {
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "/renamethr", true);
-            xhr.send(JSON.stringify({
-                "name": name,
-                "new_name": new_text
-            }));
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        location.reload();
-                    } else {
-                        alert(xhr.responseText);
-                    }
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/renamethr", true);
+        xhr.send(JSON.stringify({
+            "name": name,
+            "new_name": new_text
+        }));
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location.reload();
+                } else {
+                    alert(xhr.responseText);
                 }
-            };
-        }
+            }
+        };
     }
 
     function submit() {
