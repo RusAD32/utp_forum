@@ -3,7 +3,12 @@
         <a href="/forum/{{TOPIC_NAME}}" id="link_{{TOPIC_NAME}}">{{TOPIC NAME}}</a>
         <input class=hidden placeholder="Input new name" id="rename_{{TOPIC_NAME}}" value="{{TOPIC NAME}}"  onkeypress="if (event.keyCode === 13) { confirm_edit({{TOPIC_NAME}})}"/>
     </td>
-    <td width="20%">{{AUTHOR}}<br>{{DATE}}</td>
+    <td width="20%"><div>
+        {{AUTHOR}}<br>
+        <script>
+            document.write(time_formatter({{DATE}}))
+        </script>
+    </div></td>
 </tr>
 <tr>
     <td align="right">

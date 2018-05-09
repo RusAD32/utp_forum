@@ -1,4 +1,9 @@
 <tr>
     <td width="80%"><a href="/forum/{{TOPIC_NAME}}">{{TOPIC NAME}}</a></td>
-    <td width="20%">{{AUTHOR}}<br>{{DATE}}</td>
+    <td width="20%">
+        <div>{{AUTHOR}}<br>
+            <script>
+                document.write(time_formatter({{DATE}}))
+            </script></div>
+    </td>
 </tr>

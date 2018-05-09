@@ -4,7 +4,9 @@
         <td align="center" width="20%">
             <div>
                 {{USERNAME}} <br> <br>
-                {{DATE}}
+            <script>
+                document.write(time_formatter({{DATE}}))
+            </script>
             </div>
         </td>
         <td width="80%">

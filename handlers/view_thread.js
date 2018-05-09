@@ -9,10 +9,12 @@ const handler = (request, responce, state) => {
     let url = request.url.split("/");
     let topic_name = url[url.length-1];
     let html = read("html_templates/head.html").replace('{{TITLE}}', topic_name.replace(/_/g, " "));
+    html += read("html_templates/scripts_comments.html");
     let topic = JSON.parse(read("topics/" + topic_name + ".json"));
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
     html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>\n";
+    html += read("html_templates/scripts_comments.html");
     for (let i = 0; i < topic["comments"].length; i++) {
         let comment = topic["comments"][i];
         if (comment["author"] === user || topic["author"] === user) {
@@ -22,7 +24,6 @@ const handler = (request, responce, state) => {
         }
     }
     html += read("html_templates/new_comment.html");
-    html += read("html_templates/scripts_comments.html");
     html += "</body>\n";
     html += "</html>";
     responce.writeHead(200, {"content-type" : "text/html"});
@@ -34,7 +35,7 @@ function update_template(filename, comment) {
     return read(filename)
         .replace(/{{COMMENTID}}/g, comment["id"])
         .replace(/{{USERNAME}}/g, comment["author"])
-        .replace(/{{DATE}}/g, time_formatter(comment["date"]))
+        .replace(/{{DATE}}/g, comment["date"])
         .replace(/{{COMMENT_TEXT}}/g, comment["text"]);
 }
 

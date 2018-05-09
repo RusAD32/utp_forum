@@ -10,6 +10,7 @@ const handler = (request, responce, state) => {
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
     html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>";
+    html += read("html_templates/scripts_threads.html");
     html += read("html_templates/topiclist_new.html");
     html += "<table align='center' border='2px'>";
     for (let i = 0; i < topics.length; i++) {
@@ -22,7 +23,6 @@ const handler = (request, responce, state) => {
         }
     }
     html += "</table>\n";
-    html += read("html_templates/scripts_threads.html");
     html += "</body>\n</html>";
     responce.writeHead(200, {"content-type" : "text/html"});
     responce.write(html);
@@ -38,7 +38,7 @@ function update_template(filename, topic_name, topic) {
         .replace(/{{TOPIC_NAME}}/g, topic_name)
         .replace(/{{TOPIC NAME}}/g, topic_name.replace(/_/g, " "))
         .replace(/{{AUTHOR}}/g, topic["author"])
-        .replace(/{{DATE}}/g, time_formatter(topic["date"]));
+        .replace(/{{DATE}}/g, topic["date"]);
 }
 
 module.exports.handler = handler;
