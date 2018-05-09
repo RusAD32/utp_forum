@@ -1,7 +1,6 @@
 'use strict';
 const get_cookie = require("../utils/cookie_manager").get_cookie;
 const fs = require("fs");
-const time_formatter = require("../utils/date_formatter").time_formatter;
 
 const handler = (request, responce, state) => {
     let cookies = state.cookies;
