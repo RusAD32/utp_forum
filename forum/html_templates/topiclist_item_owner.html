@@ -3,11 +3,11 @@
         <a href="/forum/{{TOPIC_NAME}}" id="link_{{TOPIC_NAME}}">{{TOPIC NAME}}</a>
         <input class=hidden placeholder="Input new name" id="rename_{{TOPIC_NAME}}" value="{{TOPIC NAME}}"  onkeypress="if (event.keyCode === 13) { confirm_edit('{{TOPIC_NAME}})}"/>
     </td>
-    <td width="30%"><div>
-        {{AUTHOR}},&nbsp;<script>
+    <td width="30%"><div class="nowrap">
+        {{AUTHOR}},<script>
             document.write(time_formatter({{DATE}}))
         </script> <br>
-        Messages:&nbsp;{{MES_COUNT}}, last&nbsp;by&nbsp;{{LAST_NAME}}
+        Messages: {{MES_COUNT}}, last by {{LAST_NAME}}
     </div></td>
 </tr>
 <tr>
