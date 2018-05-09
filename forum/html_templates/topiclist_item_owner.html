@@ -1,20 +1,27 @@
 <tr>
     <td width="80%">
         <a href="/forum/{{TOPIC_NAME}}" id="link_{{TOPIC_NAME}}">{{TOPIC NAME}}</a>
-        <input class=hidden placeholder="Input new name" id="rename_{{TOPIC_NAME}}" value="{{TOPIC NAME}}"  onkeypress="if (event.keyCode === 13) { confirm_edit({{TOPIC_NAME}})}"/>
+        <input class=hidden placeholder="Input new name" id="rename_{{TOPIC_NAME}}" value="{{TOPIC NAME}}"  onkeypress="if (event.keyCode === 13) { confirm_edit('{{TOPIC_NAME}}')}"/>
     </td>
     <td width="20%"><div>
-        {{AUTHOR}}<br>
+        {{AUTHOR}},
         <script>
             document.write(time_formatter({{DATE}}))
-        </script>
+        </script> <br>
+        Messages: {{MES_COUNT}}, last by {{LAST_NAME}}
     </div></td>
 </tr>
 <tr>
     <td align="right">
         <button type="button" id="rename_btn_{{TOPIC_NAME}}" onclick="rename_thread('{{TOPIC_NAME}}')">Rename</button>
-        <button type="button" id="delete_btn_{{TOPIC_NAME}}" onclick="delete_thread('{{TOPIC_NAME}}')">Delete</button>
+        <button type="button" id="delete_btn_{{TOPIC_NAME}}" onclick="delete_prompt('{{TOPIC_NAME}}')">Delete</button>
         <button class=hidden id="confirm_btn_{{TOPIC_NAME}}" type="button" onclick="confirm_edit('{{TOPIC_NAME}}')">Confirm</button>
         <button class="hidden" id="cancel_btn_{{TOPIC_NAME}}" type="button" onclick="cancel_edit('{{TOPIC_NAME}}')">Cancel</button>
+    </td>
+</tr>
+<tr class="hidden" id="prompt_{{TOPIC_NAME}}">
+    <td align="center">
+        <button type="button" id="delete_confirm_{{TOPIC_NAME}}" onclick="delete_thread('{{TOPIC_NAME}}')">Yes, I want to delete that</button>
+        <button type="button" id="delete_cancel_{{TOPIC_NAME}}" onclick="cancel_delete('{{TOPIC_NAME}}')">No, I changed my mind</button>
     </td>
 </tr>

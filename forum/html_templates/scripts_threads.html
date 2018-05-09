@@ -1,18 +1,16 @@
 <script>
     function delete_thread(name) {
-        if (confirm("Are you sure?")) {
-            xhr = new XMLHttpRequest();
-            xhr.open("POST", "/delthr", true);
-            xhr.send(JSON.stringify({
-                "name": name
-            }));
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        location.reload()
-                    } else {
-                        alert(xhr.responseText);
-                    }
+        xhr = new XMLHttpRequest();
+        xhr.open("POST", "/delthr", true);
+        xhr.send(JSON.stringify({
+            "name": name
+        }));
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    location.reload()
+                } else {
+                    alert(xhr.responseText);
                 }
             }
         }
@@ -32,6 +30,12 @@
         document.getElementById("rename_" + name).setAttribute('class', 'hidden');
         document.getElementById("confirm_btn_" + name).setAttribute('class', 'hidden');
         document.getElementById("cancel_btn_" + name).setAttribute('class', 'hidden');
+    }
+    function delete_prompt(name) {
+        document.getElementById("prompt_" + name).removeAttribute('class');
+    }
+    function cancel_delete(name) {
+        document.getElementById("prompt_" + name).setAttribute('class', 'hidden');
     }
     function confirm_edit(name) {
         document.getElementById("link_" + name).removeAttribute('class');

@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <style>
+        form > * {
+            font-size: x-large;
+        }
+        div {
+            font-size: xx-large;
+        }
+        input[type="text"], input[type="password"] {
+            min-width: 300px;
+        }
+        button {
+            margin: 20px;
+        }
+        span {
+            color: #FF0000;
+            font-size: 20px;
+            white-space: pre;
+        }
+    </style>
 </head>
 <body>
 <div align="center">
     <form>
-        <h2 >Please register</h2>
+        <div><b>Please register</b></div>
+        <br>
         <input type="text" id="username" placeholder="Username" autofocus="" onkeypress="if (event.keyCode === 13) { document.getElementById('password').focus()}"/>
         <br>
         <input type="password" id="password" placeholder="Password" onkeypress="if (event.keyCode === 13) { document.getElementById('password_confirm').focus()}"/>
         <br>
         <input type="password" id="password_confirm" placeholder="Confirm your password" onkeypress="if (event.keyCode === 13) { register() }"/>
         <br>
+        <span id="warnings"></span>
         <button type="button" onclick="register()">Register</button>
         <br>
         <a href="/login">Or login instead</a>
@@ -27,33 +48,33 @@
         let password = document.getElementById("password").value;
         let password2 = document.getElementById("password_confirm").value;
         if (username.length < 3) {
-            alert("Username too short");
+            document.getElementById("warnings").textContent = "Username too short, 3 smbols minimum!\r\n";
             return;
         }
         if (username.length > 64) {
-            alert("Username too long, 64 symbols maximum!");
+            document.getElementById("warnings").textContent = "Username too long, 64 symbols maximum!\r\n";
             return;
         }
         if (password.length < 6) {
-            alert("Password too short, 6 symbols minimum!");
+            document.getElementById("warnings").textContent = "Password too short, 6 symbols minimum!\r\n";
             return;
         }
         if (password.length > 64) {
-            alert("Password too long, 64 symbols maximum!");
+            document.getElementById("warnings").textContent = "Password too long, 64 symbols maximum!\r\n";
             return;
         }
         if (password !== password2) {
-            alert("Passwords don't match!");
+            document.getElementById("warnings").textContent = "Passwords don't match!\r\n";
             return;
         }
         let regex = /[^a-zA-Zа-яА-Я0-9\-_.]+/;
         if (username.match(regex) !== null) {
-            alert('Username should contain only letters, numbers and symbols . - or _');
+            document.getElementById("warnings").textContent = 'Username should contain only letters, numbers and symbols . - or _\r\n";
             return;
         }
         let regex2 = /\s/;
         if (password.match(regex2) !== null) {
-            alert('Password shouldn\'t contain whitespaces!');
+            document.getElementById("warnings").textContent = 'Password shouldn\'t contain whitespaces!\r\n";
             return;
         }
         let xhr = new XMLHttpRequest();
@@ -64,7 +85,7 @@
                 if (xhr.status === 200) {
                     location = xhr.responseText;
                 } else {
-                    alert(xhr.responseText);
+                    document.getElementById("warnings").textContent = xhr.responseText + "\r\n";
                 }
             }
         };

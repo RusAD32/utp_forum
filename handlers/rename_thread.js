@@ -24,8 +24,8 @@ const handler = (request, responce, data, state) => {
     }
     let topic = JSON.parse(fs.readFileSync(filename));
     if (topic["author"] === user) {
-        fs.writeFileSync("./forum/topics/" + data_struct["new_name"].replace(/\s/g, "_").replace(/\//g, "\\") + ".json", JSON.stringify(topic));
         fs.unlink(filename, (e) => { if (e) console.log(e)});
+        fs.writeFileSync("./forum/topics/" + data_struct["new_name"].replace(/\s/g, "_").replace(/\//g, "\\") + ".json", JSON.stringify(topic));
         responce.writeHead(200);
         responce.end();
     } else {

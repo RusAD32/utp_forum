@@ -5,7 +5,17 @@ const fs = require("fs");
 const handler = (request, responce, state) => {
     let cookies = state.cookies;
     let html = read("html_templates/head.html").replace('{{TITLE}}', "Forum");
-    let topics = fs.readdirSync("./forum/topics");
+    let topics = fs.readdirSync("./forum/topics")
+        .map(function (fileName) {
+        return {
+            name: fileName,
+            time: fs.statSync("./forum/topics/" + fileName).mtime.getTime()
+        };
+    })
+        .sort(function (a, b) {
+            return b.time - a.time; })
+        .map(function (v) {
+            return v.name; });
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
     html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>";
@@ -37,7 +47,9 @@ function update_template(filename, topic_name, topic) {
         .replace(/{{TOPIC_NAME}}/g, topic_name)
         .replace(/{{TOPIC NAME}}/g, topic_name.replace(/_/g, " "))
         .replace(/{{AUTHOR}}/g, topic["author"])
-        .replace(/{{DATE}}/g, topic["date"]);
+        .replace(/{{DATE}}/g, topic["date"])
+        .replace(/{{MES_COUNT}}/g, topic["comments"].length)
+        .replace(/{{LAST_NAME}}/g, topic["comments"][topic["comments"].length - 1]["author"]);
 }
 
 module.exports.handler = handler;

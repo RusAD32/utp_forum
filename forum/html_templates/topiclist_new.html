@@ -6,13 +6,13 @@
 </tr>
 <tr class="hidden" id="new_topic_tr1">
     <td width="90%" align="center" colspan="3">
-        <input class="short" placeholder="Input thread name" id="new_name"  onkeypress="if (event.keyCode === 13) { login()}"/>
+        <input class="short" placeholder="Input thread name" id="new_name"  onkeypress="if (event.keyCode === 13) { document.getElementById('new_first_comm').focus()}"/>
     </td>
     <td width="10%"></td>
 </tr>
 <tr class="hidden" id="new_topic_tr2">
     <td width="90%" align="center" colspan="3">
-        <input placeholder="Input text" id="new_first_comm"/>
+        <input placeholder="Input text" id="new_first_comm" onkeypress="if (event.keyCode === 13) { submit() }"/>
     </td>
     <td width="10%"></td>
 </tr>

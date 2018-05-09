@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <style>
+        form > * {
+            font-size: x-large;
+        }
+        div {
+            font-size: xx-large;
+        }
+        input[type="text"], input[type="password"] {
+            min-width: 300px;
+        }
+        button {
+            margin: 20px;
+        }
+        span {
+            color: #FF0000;
+            font-size: 20px;
+            white-space: pre;
+        }
+    </style>
 </head>
 <body>
 <div align="center">
-    <form>
-        <h2 >Please login</h2>
+    <form >
+        <div><b>Please login</b></div>
+        <br>
         <input type="text" id="username" placeholder="Username" autofocus=""  onkeypress="if (event.keyCode === 13) { document.getElementById('password').focus()}"/>
         <br>
         <input type="password" id="password" placeholder="Password"  onkeypress="if (event.keyCode === 13) { login()}"/>
@@ -16,6 +36,7 @@
         <input type="checkbox" id="rememberMe" name="rememberMe"> Remember me
         </label>
         <br>
+        <span id="warnings"></span>
         <button type="button" onclick="login()">Login</button>
         <br>
         <a href="/register">Or register instead</a>
@@ -28,19 +49,15 @@
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
         if (username === '' || password === '') {
-            alert("Fields should not be empty!");
+            document.getElementById("warnings").textContent = "Fields should not be empty!\r\n ";
             return;
         } 
         if (username.length > 64) {
-            alert("Username too long, 64 symbols maximum!");
+            document.getElementById("warnings").textContent = "Username too long, 64 symbols maximum!\r\n";
             return;
         }
         if (password.length > 64) {
-            alert("Password too long, 64 symbols maximum!");
-            return;
-        }
-        if (password.match(/\s/) !== null) {
-            alert('Password shouldn\'t contain whitespaces!');
+            document.getElementById("warnings").textContent = "Password too long, 64 symbols maximum!\r\n";
             return;
         }
         let rm = document.getElementById("rememberMe").checked;
@@ -56,7 +73,7 @@
                         location.reload();
                     }
                 } else {
-                    alert(xhr.responseText);
+                    document.getElementById("warnings").textContent = xhr.responseText + "\r\n";
                 }
             }
         };

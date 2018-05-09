@@ -76,7 +76,13 @@
             }
         }
     }
-    
+    function delete_prompt(id) {
+        document.getElementById("prompt_" + id).removeAttribute('class');
+    }
+    function cancel_delete(id) {
+        document.getElementById("prompt_" + id).setAttribute('class', 'hidden');
+    }
+
     function time_formatter(time) {
         let dt = new Date(+time);
         return (dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()) +

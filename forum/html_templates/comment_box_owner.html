@@ -13,15 +13,21 @@
             <div id="comment_{{COMMENTID}}" aria-hidden="false">
                 {{COMMENT_TEXT}}
             </div>
-            <input class="hidden" placeholder="Comment text" type="text" id="edit_{{COMMENTID}}" value="{{COMMENT_TEXT}}"  onkeypress="if (event.keyCode === 13) { confirm_edit({{COMMENTID}})}"/>
+            <input class="hidden" placeholder="Comment text" type="text" id="edit_{{COMMENTID}}" value="{{COMMENT_TEXT}}"  onkeypress="if (event.keyCode === 13) { confirm_edit('{{COMMENTID}}')}"/>
         </td>
     </tr>
     <tr>
         <td align="right" colspan="2">
             <button type="button" id="edit_btn_{{COMMENTID}}" onclick="edit_comment('{{COMMENTID}}')">Edit</button>
-            <button type="button" id="delete_btn_{{COMMENTID}}" onclick="delete_comment('{{COMMENTID}}')">Delete</button>
+            <button type="button" id="delete_btn_{{COMMENTID}}" onclick="delete_prompt('{{COMMENTID}}')">Delete</button>
             <button class=hidden id="confirm_btn_{{COMMENTID}}" type="button" onclick="confirm_edit('{{COMMENTID}}')">Confirm</button>
             <button class="hidden" id="cancel_btn_{{COMMENTID}}" type="button" onclick="cancel_edit('{{COMMENTID}}')">Cancel</button>
+        </td>
+    </tr>
+    <tr class="hidden" id="prompt_{{COMMENTID}}">
+        <td align="center" colspan="2">
+            <button type="button" id="delete_confirm_{{TOPIC_NAME}}" onclick="delete_comment('{{COMMENTID}}')">Yes, I want to delete that</button>
+            <button type="button" id="delete_cancel_{{TOPIC_NAME}}" onclick="cancel_delete('{{COMMENTID}}')">No, I changed my mind</button>
         </td>
     </tr>
 </table>

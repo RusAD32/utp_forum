@@ -1,9 +1,12 @@
 <tr>
     <td width="80%"><a href="/forum/{{TOPIC_NAME}}">{{TOPIC NAME}}</a></td>
     <td width="20%">
-        <div>{{AUTHOR}}<br>
+        <div>{{AUTHOR}},
             <script>
                 document.write(time_formatter({{DATE}}))
-            </script></div>
+            </script>
+            <br>
+            Messages: {{MES_COUNT}}, last by {{LAST_NAME}}
+        </div>
     </td>
 </tr>
