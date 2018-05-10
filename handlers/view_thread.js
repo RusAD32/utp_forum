@@ -7,11 +7,13 @@ const handler = (request, responce, state) => {
     let cookies = state.cookies;
     let url = request.url.split("/");
     let topic_name = url[url.length-1];
-    let html = read("html_templates/head.html").replace('{{TITLE}}', topic_name.replace(/_/g, " "));
-    html += read("html_templates/scripts_comments.html");
     let topic = JSON.parse(read("topics/" + topic_name + ".json"));
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
+    let html = read("html_templates/head.html")
+        .replace('{{TITLE}}', topic_name.replace(/_/g, " "))
+        .replace('{{USER}}', user);
+    html += read("html_templates/scripts_comments.html");
     html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>\n";
     html += read("html_templates/scripts_comments.html");
     for (let i = 0; i < topic["comments"].length; i++) {

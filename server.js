@@ -6,7 +6,7 @@ const login_handler = require("./handlers/login").handler;
 const reg_handler = require("./handlers/register").handler;
 const forum_handler = require("./handlers/list_topics").handler;
 const topic_handler = require("./handlers/view_thread").handler;
-const check_cookie = require("./utils/cookie_manager").check_cookie;
+const cookie_mgr = require("./utils/cookie_manager");
 const new_comment_handler = require("./handlers/new_comment").handler;
 const delete_comment_handler = require("./handlers/delete_comment").handler;
 const edit_comment_handler = require("./handlers/edit_comment").handler;
@@ -23,10 +23,6 @@ if (!fs.existsSync("./data/data.json")) {
     }
 } else {
     savedstate = JSON.parse(fs.readFileSync("./data/data.json"));
-}
-if (savedstate.cookies.length > 10000) {
-    savedstate.cookies = savedstate.cookies.slice(5000);
-    fs.writeFileSync("./data/data.json", JSON.stringify(savedstate));
 }
 
 const handler = (request, responce) => {
@@ -55,11 +51,10 @@ const handler = (request, responce) => {
             responce.write("Page you are requesting can not be found");
             responce.end();
         }
-    } else if (!(check_cookie(cookie, savedstate["cookies"]) ||
+    } else if (!(cookie_mgr.check_cookie(cookie, savedstate["cookies"]) ||
             req_url === "/login" || req_url === "/register" ||
             req_url === "/login/" || req_url === "/register/")) {
-        responce.writeHead(200, {"content-type": "text/html"});
-        responce.write(fs.readFileSync("./pages/login.html", "UTF-8"));
+        responce.writeHead(302, {"location": "/login"});
         responce.end();
     } else if (req_url === "/") {
         responce.writeHead(302, {"location": "/forum"});
@@ -77,6 +72,14 @@ const handler = (request, responce) => {
         forum_handler(request, responce, savedstate)
     } else if(req_url.startsWith("/forum/")) {
         topic_handler(request, responce, savedstate)
+    } else if (req_url === "/logout" || req_url === "/logout") {
+        let old_cookie = cookie_mgr.get_cookie(cookie, "forum_session");
+        delete savedstate.cookies[old_cookie];
+        responce.writeHead(200, {
+            "content-type": "text/plain",
+            "Set-cookie" : "forum_session=" + old_cookie + "; max-age=-999"
+        });
+        responce.end()
     } else {
         responce.writeHead(404, {"content-type" : "text/plain"});
         responce.write("Page you are requesting can not be found");

@@ -4,7 +4,6 @@ const fs = require("fs");
 
 const handler = (request, responce, state) => {
     let cookies = state.cookies;
-    let html = read("html_templates/head.html").replace('{{TITLE}}', "Forum");
     let topics = fs.readdirSync("./forum/topics")
         .map(function (fileName) {
         return {
@@ -18,7 +17,9 @@ const handler = (request, responce, state) => {
             return v.name; });
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
-    html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>";
+    let html = read("html_templates/head.html")
+        .replace('{{TITLE}}', "Forum")
+        .replace('{{USER}}', user);
     html += read("html_templates/scripts_threads.html");
     html += read("html_templates/topiclist_new.html");
     html += "<table align='center' border='2px'>";

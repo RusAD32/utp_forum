@@ -43,3 +43,19 @@
     
     </style>
 </head>
+<body>
+<div align='right'>Приветствую, {{USER}}!<br>
+<button type="button" onclick="logout()">Log out</button>
+</div>
+<script>function logout() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/logout", true);
+    xhr.send();
+    xhr.onreadystatechange = (e) => {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                document.location = "/"
+            }
+        }
+    };
+}
