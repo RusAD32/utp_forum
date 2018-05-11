@@ -17,7 +17,7 @@ const handler = (request, responce, state) => {
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
     let html = read("html_templates/head.html")
-        .replace('{{TITLE}}', topic_name.replace(/_/g, " "))
+        .replace('{{TITLE}}', topic["name"])
         .replace('{{USER}}', user);
     html += read("html_templates/scripts_comments.html");
     for (let i = 0; i < topic["comments"].length; i++) {
