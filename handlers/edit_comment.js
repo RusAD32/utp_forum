@@ -15,7 +15,7 @@ const handler = (request, responce, data, state) => {
     }
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
-    let filename = "./forum/topics/" + data_struct["topic_name"].replace(/\s/g, "_") + ".json";
+    let filename = "./forum/topics/" + data_struct["topic_name"] + ".json";
     let topic = JSON.parse(fs.readFileSync(filename));
     for (let i = 0; i < topic["comments"].length; i++) {
         if (topic["comments"][i].id === data_struct.id) {
