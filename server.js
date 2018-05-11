@@ -19,6 +19,7 @@ let savedstate = {};
 if (!fs.existsSync("./data/data.json")) {
     savedstate = { 
         "total_comments": 0,
+        "total_topics": 0,
         "cookies": {}
     }
 } else {
