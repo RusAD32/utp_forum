@@ -47,7 +47,7 @@
 <div align='right'>Приветствую, {{USER}}!<br>
 <button type="button" onclick="logout()">Log out</button>
 </div>
-<script>function logout() {
+<script>const logout = () => {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/logout", true);
     xhr.send();
@@ -58,4 +58,4 @@
             }
         }
     };
-}
+} </script>

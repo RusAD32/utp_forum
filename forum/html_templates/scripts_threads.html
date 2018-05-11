@@ -1,5 +1,5 @@
-
-    function delete_thread(name) {
+<script>
+    const delete_thread = (name) => {
         xhr = new XMLHttpRequest();
         xhr.open("POST", "/delthr", true);
         xhr.send(JSON.stringify({
@@ -14,30 +14,30 @@
                 }
             }
         }
-    }
-    function rename_thread(name) {
+    };
+    const rename_thread = (name) => {
         document.getElementById("link_" + name).setAttribute('class', 'hidden');
         document.getElementById("rename_btn_" + name).setAttribute('class', 'hidden');
         document.getElementById("delete_btn_" + name).setAttribute('class', 'hidden');
         document.getElementById("rename_" + name).removeAttribute('class');
         document.getElementById("confirm_btn_" + name).removeAttribute('class');
         document.getElementById("cancel_btn_" + name).removeAttribute('class');
-    }
-    function cancel_edit(name) {
+    };
+    const cancel_edit = (name) => {
         document.getElementById("link_" + name).removeAttribute('class');
         document.getElementById("rename_btn_" + name).removeAttribute('class');
         document.getElementById("delete_btn_" + name).removeAttribute('class');
         document.getElementById("rename_" + name).setAttribute('class', 'hidden');
         document.getElementById("confirm_btn_" + name).setAttribute('class', 'hidden');
         document.getElementById("cancel_btn_" + name).setAttribute('class', 'hidden');
-    }
-    function delete_prompt(name) {
+    };
+    const delete_prompt = (name) => {
         document.getElementById("prompt_" + name).removeAttribute('class');
-    }
-    function cancel_delete(name) {
+    };
+    const cancel_delete = (name) => {
         document.getElementById("prompt_" + name).setAttribute('class', 'hidden');
-    }
-    function confirm_edit(name) {
+    };
+    const confirm_edit = (name) => {
         document.getElementById("link_" + name).removeAttribute('class');
         document.getElementById("rename_btn_" + name).removeAttribute('class');
         document.getElementById("delete_btn_" + name).removeAttribute('class');
@@ -60,9 +60,9 @@
                 }
             }
         };
-    }
+    };
 
-    function submit() {
+    const submit = () => {
         let new_name = document.getElementById('new_name').value;
         let new_text = document.getElementById('new_first_comm').value;
         let xhr = new XMLHttpRequest();
@@ -80,9 +80,9 @@
                 }
             }
         }
-    }
+    };
 
-    function expand() {
+    const expand = () => {
         if (document.getElementById("new_topic_tr1").getAttribute("class") === "hidden") {
             document.getElementById("new_topic_tr1").removeAttribute("class");
             document.getElementById("new_topic_tr2").removeAttribute("class");
@@ -92,14 +92,14 @@
             document.getElementById("new_topic_tr2").setAttribute("class", "hidden");
             document.getElementById("new_topic_tr3").setAttribute("class", "hidden")
         }
-    }
+    };
     
-    function time_formatter(time) {
+    const time_formatter = (time) => {
         let dt = new Date(+time);
         return (dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()) +
             "." + (dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : (dt.getMonth() + 1)) +
             "." + dt.getFullYear() + "&nbsp;" + dt.getHours() + ":" +
             (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes()) + ":" +
             (dt.getSeconds() < 10 ? '0' + dt.getSeconds() : dt.getSeconds());
-    }
+    };
 </script>
