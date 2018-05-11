@@ -45,8 +45,8 @@ function read(path) {
 
 function update_template(filename, topic_name, topic) {
     return read(filename)
-        .replace(/{{TOPIC_NAME}}/g, topic_name)
-        .replace(/{{TOPIC NAME}}/g, decodeURIComponent(topic_name.replace(/_/g, " ")))
+        .replace(/{{TOPIC_NAME}}/g, topic_name) // TODO refactor to ID
+        .replace(/{{TOPIC NAME}}/g, topic["name"])
         .replace(/{{AUTHOR}}/g, topic["author"])
         .replace(/{{DATE}}/g, topic["date"])
         .replace(/{{MES_COUNT}}/g, topic["comments"].length)
