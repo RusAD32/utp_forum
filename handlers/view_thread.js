@@ -7,6 +7,12 @@ const handler = (request, responce, state) => {
     let cookies = state.cookies;
     let url = request.url.split("/");
     let topic_name = url[url.length-1];
+    if (!fs.existsSync("topics/" + topic_name + ".json") {
+        responce.writeHead(404, {"content-type": "text/plain"};
+        responce.write("Thread not found");
+        responce.end();
+        return;
+    }
     let topic = JSON.parse(read("topics/" + topic_name + ".json"));
     let cookie = get_cookie(request.headers.cookie, "forum_session");
     let user = cookies[cookie];
