@@ -45,7 +45,7 @@
         xhr.send(JSON.stringify({
             "topic_name": document.title,
             "id": +id
-        };))
+        }));
         xhr.onreadystatechange = (e) => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
