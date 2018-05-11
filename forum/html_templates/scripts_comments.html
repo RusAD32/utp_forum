@@ -44,7 +44,7 @@
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "/delcom", true);
         xhr.send(JSON.stringify({
-            "topic_name": document.title,
+            "topic_name": {{TOPIC_ID}},
             "id": +id
         }));
         xhr.onreadystatechange = (e) => {
