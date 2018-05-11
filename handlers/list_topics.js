@@ -45,7 +45,7 @@ function read(path) {
 
 function update_template(filename, topic_name, topic) {
     return read(filename)
-        .replace(/{{TOPIC_NAME}}/g, decodeURIComponent(topic_name))
+        .replace(/{{TOPIC_NAME}}/g, topic_name)
         .replace(/{{TOPIC NAME}}/g, decodeURIComponent(topic_name.replace(/_/g, " ")))
         .replace(/{{AUTHOR}}/g, topic["author"])
         .replace(/{{DATE}}/g, topic["date"])
