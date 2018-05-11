@@ -14,8 +14,6 @@ const handler = (request, responce, state) => {
         .replace('{{TITLE}}', topic_name.replace(/_/g, " "))
         .replace('{{USER}}', user);
     html += read("html_templates/scripts_comments.html");
-    html += "\n<body>\n<div align='right'>Приветствую, " + user + "!</div>\n";
-    html += read("html_templates/scripts_comments.html");
     for (let i = 0; i < topic["comments"].length; i++) {
         let comment = topic["comments"][i];
         if (comment["author"] === user || topic["author"] === user) {
