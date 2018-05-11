@@ -27,7 +27,11 @@ const handler = (request, responce, data, state) => {
         if (topic["comments"][i].id === data_struct.id) {
             if (topic["comments"][i].author === user || topic.author === user) {
                 topic["comments"].splice(i,1);
-                fs.writeFileSync(filename, JSON.stringify(topic));
+                if (topic["comments"].length == 0) {
+                    fs.unlink(filename, () => {})
+                } else {   
+                    fs.writeFileSync(filename, JSON.stringify(topic));
+                }
                 responce.writeHead(200);
                 responce.end();
                 return;
