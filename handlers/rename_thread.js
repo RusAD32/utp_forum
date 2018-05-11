@@ -25,7 +25,6 @@ const handler = (request, responce, data, state) => {
     let topic = JSON.parse(fs.readFileSync(filename));
     topic["name"] = data_struct["new_name"]
     if (topic["author"] === user) {
-        fs.unlink(filename, (e) => { if (e) console.log(e)});
         fs.writeFileSync("./forum/topics/" + data_struct["name"] + ".json", JSON.stringify(topic));
         responce.writeHead(200);
         responce.end();
